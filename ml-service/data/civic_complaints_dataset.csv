@@ -1,0 +1,101 @@
+complaint_text,category,priority,days_pending,previous_complaints
+"Streetlight near Sector 4 has been broken for 10 days and the road becomes completely dark at night.",Streetlight,HIGH,10,4
+"Street light pole blinking intermittently outside house 42B.",Streetlight,LOW,2,0
+"Streetlight bulb fused on main 8th cross avenue, dark corner causes accidents.",Streetlight,MEDIUM,5,1
+"Completely dead street light cluster across the entire residential street for 2 weeks.",Streetlight,HIGH,14,3
+"Solar street lamp cover broken and flickering after heavy wind.",Streetlight,LOW,1,0
+"Dark alleyway with three broken sodium streetlights near women's hostel.",Streetlight,HIGH,8,5
+"Street light timer turns on in afternoon and turns off at night.",Streetlight,LOW,3,0
+"Fallen streetlight pole leaning dangerously on power line after rainstorm.",Streetlight,HIGH,2,2
+"Street lamp post rusted at the base, risk of falling onto footpath.",Streetlight,MEDIUM,12,1
+"Streetlight on park perimeter not turning on at dusk.",Streetlight,LOW,4,0
+"Garbage dump overflowing on the main market road attracting stray animals and severe stench.",Garbage,HIGH,7,3
+"Community dustbin not cleared for 2 days in quiet residential lane.",Garbage,LOW,2,0
+"Huge illegal garbage dumping site near primary school creating health hazard.",Garbage,HIGH,9,5
+"Door to door waste collector missed our lane today.",Garbage,LOW,1,0
+"Commercial hotel dumping rotten food waste and plastic on sidewalk daily.",Garbage,MEDIUM,4,2
+"Decaying animal carcass in open garbage pile near vegetable market.",Garbage,HIGH,3,4
+"Green waste and tree branches piled up on roadside corner after trimming.",Garbage,LOW,6,0
+"Garbage bin lid missing and overflowing into the storm drain during rain.",Garbage,MEDIUM,5,1
+"Medical waste syringes and bandages dumped in open municipal garbage bin.",Garbage,HIGH,2,3
+"Dry leaves burning in municipal bin causing smoke in neighborhood.",Garbage,MEDIUM,1,1
+"Massive deep crater pothole on expressway flyover causing sudden braking and bike skids.",Road/Pothole,HIGH,6,5
+"Small pothole near residential colony gate causing slight bumpy drive.",Road/Pothole,LOW,3,0
+"Severe cave-in on arterial highway lane after pipe burst, vehicles getting stuck.",Road/Pothole,HIGH,2,4
+"Cracked asphalt on lane 5, needs minor patch work.",Road/Pothole,LOW,15,0
+"Multiple deep potholes near school bus stop causing severe traffic jams and falls.",Road/Pothole,HIGH,12,6
+"Uneven road surface after internet fiber optic cable digging.",Road/Pothole,MEDIUM,8,2
+"Sharp broken concrete slab exposed in middle of road cutting car tires.",Road/Pothole,HIGH,4,3
+"Speed breaker marking faded and uneven bump on sub-road.",Road/Pothole,LOW,20,0
+"Road edge eroded causing steep dangerous drop into roadside ditch.",Road/Pothole,HIGH,10,3
+"Tar melting and minor ruts on inner parking lane.",Road/Pothole,LOW,1,0
+"Main drinking water pipeline burst flooding entire road with high pressure water loss.",Water Supply,HIGH,1,5
+"Low water pressure in residential tap in morning hours.",Water Supply,LOW,3,0
+"Contaminated muddy drinking water with foul smell coming from city tap supply.",Water Supply,HIGH,4,6
+"Water supply timing delayed by 1 hour today.",Water Supply,LOW,1,0
+"No municipal water supply for consecutive 4 days in Sector 9 apartments.",Water Supply,HIGH,5,4
+"Leaking water valve on street corner causing steady trickle of water.",Water Supply,LOW,7,1
+"Main distribution valve damaged, over 500 households without any drinking water.",Water Supply,HIGH,2,8
+"Water tank overflow valve slightly dripping onto sidewalk.",Water Supply,LOW,2,0
+"Brown rust colored water coming from supply line after maintenance.",Water Supply,MEDIUM,2,1
+"Severe drinking water shortage in slum cluster during peak summer.",Water Supply,HIGH,6,5
+"Stormwater drain completely choked causing 2 feet road flooding into houses.",Drainage,HIGH,3,4
+"Minor leaf blockage in roadside gutter grate.",Drainage,LOW,2,0
+"Open stormwater drain overflowing with filthy stagnant water breeding mosquitoes.",Drainage,HIGH,8,3
+"Drain cover slab slightly cracked but still walkable.",Drainage,LOW,10,0
+"Monsoon drain collapsed near apartment boundary wall risking structural damage.",Drainage,HIGH,4,2
+"Slow draining water near bus shelter during light showers.",Drainage,LOW,1,0
+"Drainage blockage causing black toxic water backflow into residential basements.",Drainage,HIGH,2,5
+"Silt accumulation in side gutter needs routine pre-monsoon cleaning.",Drainage,MEDIUM,14,1
+"Missing drain grate creating hazardous 5 feet open pit on busy sidewalk.",Drainage,HIGH,1,3
+"Gutter water overflowing onto bicycle track after heavy rain.",Drainage,MEDIUM,2,1
+"High voltage transformer sparking and exposed live electrical wire hanging near playground.",Electricity,HIGH,1,6
+"Street power meter box door loose and unlatched.",Electricity,LOW,5,0
+"Frequent voltage fluctuations damaging household appliances across colony.",Electricity,MEDIUM,4,2
+"Underground cable burst leading to localized power outage for 18 hours.",Electricity,HIGH,1,3
+"Transformer oil leaking onto public footpath.",Electricity,MEDIUM,3,1
+"Snapped electric wire lying submerged in rainwater on main road.",Electricity,HIGH,1,7
+"Rusted electric pole bending under weight of tangled cable TV wires.",Electricity,MEDIUM,11,2
+"Streetlight switchboard sparks occasionally when switched.",Electricity,LOW,2,0
+"Total blackout in residential block due to blown feeder pillar fuse.",Electricity,HIGH,1,4
+"Loose overhead service wire touching tree branches in residential street.",Electricity,MEDIUM,6,1
+"City bus breakdown in middle of intersection creating 2km traffic gridlock.",Public Transport,HIGH,1,3
+"Bus stop shelter glass panel missing and bench dirty.",Public Transport,LOW,8,0
+"Public bus skipped scheduled morning route leaving 100 commuters stranded.",Public Transport,MEDIUM,2,2
+"Bus stop signpost tilted and timetable sheet torn.",Public Transport,LOW,25,0
+"Reckless speeding by public transit bus near school zone endangering pedestrians.",Public Transport,HIGH,1,4
+"Digital arrival display board not working at central bus terminus.",Public Transport,LOW,10,0
+"Overcrowded bus doors failing to close while vehicle is moving.",Public Transport,HIGH,2,3
+"Bus stop seating bench damaged by rust.",Public Transport,LOW,14,0
+"Public bus route canceled without prior announcement for 3 consecutive days.",Public Transport,MEDIUM,3,2
+"Metro feeder electric bus caught fire hazard smoke at terminal.",Public Transport,HIGH,1,5
+"Traffic signals failed at major 6-lane junction causing severe gridlock and near collisions.",Traffic,HIGH,1,8
+"Traffic sign for one-way street obscured by overgrown tree foliage.",Traffic,LOW,12,0
+"Illegal parking of heavy trucks blocking single lane road near hospital entrance.",Traffic,HIGH,3,5
+"Pedestrian crossing zebra lines faded and need repainting.",Traffic,LOW,30,0
+"Broken traffic light blinking yellow continuously at blind crossroad.",Traffic,HIGH,2,4
+"Unauthorized speed bump built without warning signs or paint.",Traffic,MEDIUM,5,1
+"Vehicle wrong-way entry causing daily bottlenecks near highway ramp.",Traffic,MEDIUM,4,2
+"Traffic camera pole dislodged after vehicle collision.",Traffic,MEDIUM,2,1
+"Massive pileup risk due to non-functioning red lights during peak rush hour.",Traffic,HIGH,1,6
+"Traffic mirror at blind corner cracked.",Traffic,LOW,15,0
+"Underground sewer pipeline burst spilling raw human sewage into residential street.",Sewage,HIGH,1,9
+"Manhole cover slightly rattling when heavy cars drive over it.",Sewage,LOW,6,0
+"Sewage overflowing from manhole and entering ground floor residential homes.",Sewage,HIGH,2,7
+"Slight sewer odor near alleyway during evening breeze.",Sewage,LOW,3,0
+"Broken sewer pipe contaminating nearby shallow groundwater wells.",Sewage,HIGH,5,4
+"Manhole concrete ring worn around edges on side lane.",Sewage,LOW,18,0
+"Clogged main sewer line causing toilet backflow in entire apartment complex.",Sewage,HIGH,2,6
+"Open manhole cover left open without safety barricade on pedestrian walkway.",Sewage,HIGH,1,8
+"Sewage water leaking from municipal inspection chamber into park grass.",Sewage,MEDIUM,4,1
+"Sewer cleaning required for colony line before rainy season starts.",Sewage,LOW,20,0
+"Unauthorized commercial banner hung across public heritage monument.",Other,LOW,5,0
+"Stray aggressive dog pack attacking residents and school children in park.",Other,HIGH,3,7
+"Fallen tree blocking public road access completely during storm.",Other,HIGH,1,4
+"Graffiti sprayed on community public library wall.",Other,LOW,8,0
+"Public park gate latch broken and swings in wind.",Other,LOW,12,0
+"Dead tree trunk about to collapse onto pedestrian walkway.",Other,HIGH,4,3
+"Public park fountain not operating and filled with dry leaves.",Other,LOW,22,0
+"Loud illegal loudspeaker noise violation past midnight in residential zone.",Other,MEDIUM,1,2
+"Open construction debris left on public pathway blocking wheelchairs.",Other,MEDIUM,7,1
+"Encroachment on public pavement by unauthorized vendor stalls blocking walk path.",Other,MEDIUM,10,3

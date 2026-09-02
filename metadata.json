@@ -2,5 +2,7 @@
   "name": "CivicSense – Civic Complaint Intelligence System",
   "description": "An intelligent civic complaint management system that automatically categorizes complaints and predicts their priority using NLP and machine learning for rapid municipal response.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

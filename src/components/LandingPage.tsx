@@ -25,7 +25,7 @@ import {
 interface LandingPageProps {
   onStartCitizen: () => void;
   onStartAdmin: () => void;
-  onOpenAuth: (defaultRole?: UserRole, isRegister?: boolean) => void;
+  onOpenAuth: (isRegister: boolean, defaultRole?: UserRole, reason?: string) => void;
   onQuickDemoLogin: (role: UserRole) => void;
 }
 
@@ -148,11 +148,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </button>
 
             <button
-              onClick={() => onOpenAuth(undefined, true)}
-              className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white font-medium text-xs px-4 py-3 rounded-2xl transition-colors"
+              onClick={() => onOpenAuth(true, 'citizen', 'Register your citizen profile to lodge civic complaints.')}
+              className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white font-medium text-xs px-4 py-3 rounded-2xl transition-colors cursor-pointer"
             >
               <Users className="w-3.5 h-3.5" />
-              <span>Create Account</span>
+              <span>Register Citizen Profile</span>
             </button>
           </div>
 
@@ -179,51 +179,51 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
       {/* Real-Time Impact Metric Cards */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-          <div className="text-2xl sm:text-3xl font-extrabold text-blue-600">94.2%</div>
-          <div className="text-xs font-bold text-slate-800">Categorization Accuracy</div>
-          <div className="text-[11px] text-slate-500">TF-IDF multi-class NLP model</div>
+        <div className="bg-white dark:bg-slate-900/90 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-1 transition-colors">
+          <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400">94.2%</div>
+          <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Categorization Accuracy</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">TF-IDF multi-class NLP model</div>
         </div>
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-          <div className="text-2xl sm:text-3xl font-extrabold text-rose-600">&lt; 15ms</div>
-          <div className="text-xs font-bold text-slate-800">Urgency Prediction</div>
-          <div className="text-[11px] text-slate-500">Sub-second emergency triage</div>
+        <div className="bg-white dark:bg-slate-900/90 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-1 transition-colors">
+          <div className="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400">&lt; 15ms</div>
+          <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Urgency Prediction</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">Sub-second emergency triage</div>
         </div>
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-          <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600">4.2x Faster</div>
-          <div className="text-xs font-bold text-slate-800">Emergency Dispatch</div>
-          <div className="text-[11px] text-slate-500">Automated work order creation</div>
+        <div className="bg-white dark:bg-slate-900/90 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-1 transition-colors">
+          <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400">4.2x Faster</div>
+          <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Emergency Dispatch</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">Automated work order creation</div>
         </div>
-        <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs space-y-1">
-          <div className="text-2xl sm:text-3xl font-extrabold text-indigo-600">100%</div>
-          <div className="text-xs font-bold text-slate-800">Public Auditability</div>
-          <div className="text-[11px] text-slate-500">Transparent SLA timeline</div>
+        <div className="bg-white dark:bg-slate-900/90 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-1 transition-colors">
+          <div className="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">100%</div>
+          <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Public Auditability</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400">Transparent SLA timeline</div>
         </div>
       </section>
 
       {/* Interactive Live ML Sandbox */}
-      <section className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      <section className="bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-xs space-y-6 transition-colors">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1">
               <BrainCircuit className="w-4 h-4" />
               <span>Interactive Triage Engine</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
               Test Instant Priority Prediction Live
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Type any civic complaint or pick a realistic scenario below to see how our NLP model classifies category and urgency.
             </p>
           </div>
-          <span className="text-xs font-mono bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl border border-slate-200 self-start sm:self-auto">
+          <span className="text-xs font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 self-start sm:self-auto">
             Model: TF-IDF + Logistic Regression
           </span>
         </div>
 
         {/* Preset Sample Prompts */}
         <div className="space-y-2">
-          <div className="text-xs font-semibold text-slate-700">Click a sample issue to test:</div>
+          <div className="text-xs font-semibold text-slate-700 dark:text-slate-300">Click a sample issue to test:</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             {SAMPLE_PROMPTS.map((sample, idx) => (
               <button
@@ -232,13 +232,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   setSandboxInput(sample.desc);
                   handleTestInference(sample.desc);
                 }}
-                className="text-left p-3 rounded-xl border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-all group cursor-pointer"
+                className="text-left p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-slate-800/80 transition-all group cursor-pointer"
               >
                 <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="text-xs font-bold text-slate-800 group-hover:text-blue-700">{sample.title}</span>
-                  <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">{sample.badge}</span>
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-700 dark:group-hover:text-blue-400">{sample.title}</span>
+                  <span className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded font-medium">{sample.badge}</span>
                 </div>
-                <p className="text-[11px] text-slate-500 line-clamp-2">{sample.desc}</p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">{sample.desc}</p>
               </button>
             ))}
           </div>
@@ -248,16 +248,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
           {/* Input column */}
           <div className="lg:col-span-7 space-y-3">
-            <label className="block text-xs font-bold text-slate-700">Complaint Description</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">Complaint Description</label>
             <textarea
               rows={3}
               value={sandboxInput}
               onChange={(e) => setSandboxInput(e.target.value)}
               placeholder="Describe a civic hazard (e.g. exposed live sparking wire, deep crater pothole, water pipe burst)..."
-              className="w-full p-3.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500 font-sans"
+              className="w-full p-3.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 rounded-2xl text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500 font-sans"
             />
             <div className="flex items-center justify-between">
-              <span className="text-[11px] text-slate-400">Captures n-grams, urgency drivers & context tokens</span>
+              <span className="text-[11px] text-slate-400 dark:text-slate-500">Captures n-grams, urgency drivers & context tokens</span>
               <button
                 onClick={() => handleTestInference(sandboxInput)}
                 disabled={sandboxLoading || !sandboxInput.trim()}
@@ -270,11 +270,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Output column */}
-          <div className="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
+          <div className="lg:col-span-5 bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/80 rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Live ML Result</span>
-                <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Live ML Result</span>
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
                   Instant Response
                 </span>
               </div>
@@ -283,17 +283,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-[11px] text-slate-500">Predicted Category</div>
-                      <div className="text-base font-bold text-slate-900">{sandboxResult.category}</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Predicted Category</div>
+                      <div className="text-base font-bold text-slate-900 dark:text-white">{sandboxResult.category}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-[11px] text-slate-500">Priority Level</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Priority Level</div>
                       <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-extrabold ${
                         sandboxResult.priority === 'HIGH'
-                          ? 'bg-rose-100 text-rose-700 border border-rose-200'
+                          ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
                           : sandboxResult.priority === 'MEDIUM'
-                          ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                          : 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                          ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
+                          : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                       }`}>
                         {sandboxResult.priority === 'HIGH' && <ShieldAlert className="w-3.5 h-3.5" />}
                         {sandboxResult.priority} PRIORITY
@@ -302,18 +302,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   </div>
 
                   <div>
-                    <div className="flex justify-between text-xs text-slate-600 mb-1">
+                    <div className="flex justify-between text-xs text-slate-600 dark:text-slate-300 mb-1">
                       <span>Urgency Confidence</span>
-                      <span className="font-bold text-slate-900">{Math.round(sandboxResult.confidence * 100)}%</span>
+                      <span className="font-bold text-slate-900 dark:text-white">{Math.round(sandboxResult.confidence * 100)}%</span>
                     </div>
-                    <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                       <div
                         className={`h-full transition-all duration-300 ${
                           sandboxResult.priority === 'HIGH'
-                            ? 'bg-rose-600'
+                            ? 'bg-rose-600 dark:bg-rose-500'
                             : sandboxResult.priority === 'MEDIUM'
                             ? 'bg-amber-500'
-                            : 'bg-emerald-600'
+                            : 'bg-emerald-600 dark:bg-emerald-500'
                         }`}
                         style={{ width: `${Math.round(sandboxResult.confidence * 100)}%` }}
                       />
@@ -321,11 +321,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   </div>
 
                   {sandboxResult.drivers && sandboxResult.drivers.length > 0 && (
-                    <div className="pt-2 border-t border-slate-200 text-xs">
-                      <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Key Urgency Drivers:</div>
+                    <div className="pt-2 border-t border-slate-200 dark:border-slate-700 text-xs">
+                      <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Key Urgency Drivers:</div>
                       <div className="flex flex-wrap gap-1.5">
                         {sandboxResult.drivers.map((drv, i) => (
-                          <span key={i} className="text-[11px] bg-white border border-slate-200 text-slate-700 px-2 py-0.5 rounded-md font-mono">
+                          <span key={i} className="text-[11px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-md font-mono">
                             {drv}
                           </span>
                         ))}
@@ -334,7 +334,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                   )}
                 </div>
               ) : (
-                <div className="text-center py-6 text-xs text-slate-400">
+                <div className="text-center py-6 text-xs text-slate-400 dark:text-slate-500">
                   Run a prediction to see live results
                 </div>
               )}
@@ -342,7 +342,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
 
             <button
               onClick={onStartCitizen}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs py-2 rounded-xl transition-colors flex items-center justify-center gap-1.5"
+              className="w-full bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-500 text-white font-semibold text-xs py-2 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>Submit this as a Real Complaint</span>
               <ChevronRight className="w-3.5 h-3.5" />
@@ -354,50 +354,50 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       {/* Two Specialized Portals Showcase */}
       <section className="space-y-6">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
             Tailored Experiences for Citizens & Authorities
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             A cohesive civic platform connecting public voices directly to frontline municipal operations.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Citizen Card */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 flex flex-col justify-between shadow-xs hover:border-blue-300 transition-all space-y-6">
+          <div className="bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 flex flex-col justify-between shadow-xs hover:border-blue-300 dark:hover:border-blue-500 transition-all space-y-6">
             <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 flex items-center justify-center">
                 <User className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">Citizen Experience</span>
-                <h3 className="text-xl font-bold text-slate-900 mt-0.5">Citizen Reporting & Tracking Portal</h3>
-                <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Citizen Experience</span>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Citizen Reporting & Tracking Portal</h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
                   Easily file civic grievances with automatic location pinning, photo attachments, and real-time resolution milestone updates.
                 </p>
               </div>
 
-              <ul className="space-y-2.5 text-xs text-slate-700">
+              <ul className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
                   <span>Interactive complaint submission with live ML preview</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
                   <span>Complete resolution stepper tracking (Submitted → Resolved)</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
                   <span>Personal "My Registered Issues" history & status tracker</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
                   <span>Direct assigned officer and department contacts</span>
                 </li>
               </ul>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3">
               <button
                 onClick={onStartCitizen}
                 className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-colors text-center shadow-xs cursor-pointer"
@@ -406,7 +406,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </button>
               <button
                 onClick={() => onQuickDemoLogin('citizen')}
-                className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-colors cursor-pointer"
+                className="px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl transition-colors cursor-pointer border border-transparent dark:border-slate-700"
               >
                 Demo Login
               </button>
@@ -414,40 +414,40 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
 
           {/* Municipal Admin Card */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 flex flex-col justify-between shadow-xs hover:border-indigo-300 transition-all space-y-6">
+          <div className="bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 flex flex-col justify-between shadow-xs hover:border-indigo-300 dark:hover:border-indigo-500 transition-all space-y-6">
             <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 flex items-center justify-center">
                 <Shield className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">Municipal Operations</span>
-                <h3 className="text-xl font-bold text-slate-900 mt-0.5">Municipal Authority Command Console</h3>
-                <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Municipal Operations</span>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Municipal Authority Command Console</h3>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
                   Centralized command room for city commissioners and department heads to monitor ward performance, triage hazards, and dispatch crews.
                 </p>
               </div>
 
-              <ul className="space-y-2.5 text-xs text-slate-700">
+              <ul className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
                   <span>Real-time High-Priority Triage Queue for critical emergencies</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
                   <span>Ward & category resolution SLA analytics charts</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
                   <span>All Complaints Registry with multi-filter, search, and CSV export</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-indigo-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
                   <span>ML Model Performance & Confusion Matrix evaluation explorer</span>
                 </li>
               </ul>
             </div>
 
-            <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3">
               <button
                 onClick={onStartAdmin}
                 className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-3 rounded-xl transition-colors text-center shadow-xs cursor-pointer"
@@ -456,7 +456,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </button>
               <button
                 onClick={() => onQuickDemoLogin('admin')}
-                className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition-colors cursor-pointer"
+                className="px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl transition-colors cursor-pointer border border-transparent dark:border-slate-700"
               >
                 Demo Login
               </button>
@@ -527,7 +527,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             Submit a Civic Complaint
           </button>
           <button
-            onClick={() => onOpenAuth('admin', false)}
+            onClick={() => onOpenAuth(false, 'admin', 'Sign in with Municipal Official credentials.')}
             className="px-6 py-3.5 bg-blue-900/60 hover:bg-blue-900 text-white font-semibold text-xs rounded-xl border border-blue-400/30 transition-colors cursor-pointer"
           >
             Sign in as Municipal Official

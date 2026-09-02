@@ -17,21 +17,21 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({
 }) => {
   const configs = {
     HIGH: {
-      bg: 'bg-red-50 text-red-700 border-red-200 ring-red-500/20',
+      bg: 'bg-red-50 dark:bg-red-950/60 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800 ring-red-500/20',
       pill: 'bg-red-600 text-white',
       dot: 'bg-red-500',
       icon: ShieldAlert,
       label: 'HIGH PRIORITY'
     },
     MEDIUM: {
-      bg: 'bg-amber-50 text-amber-700 border-amber-200 ring-amber-500/20',
+      bg: 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800 ring-amber-500/20',
       pill: 'bg-amber-600 text-white',
       dot: 'bg-amber-500',
       icon: AlertTriangle,
       label: 'MEDIUM PRIORITY'
     },
     LOW: {
-      bg: 'bg-emerald-50 text-emerald-700 border-emerald-200 ring-emerald-500/20',
+      bg: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800 ring-emerald-500/20',
       pill: 'bg-emerald-600 text-white',
       dot: 'bg-emerald-500',
       icon: Clock,
@@ -72,27 +72,27 @@ interface StatusBadgeProps {
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = 'md' }) => {
   const configs: Record<ComplaintStatus, { bg: string; icon: React.ComponentType<{ className?: string }> }> = {
     'Submitted': {
-      bg: 'bg-slate-100 text-slate-700 border-slate-300',
+      bg: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700',
       icon: Clock
     },
     'Under Review': {
-      bg: 'bg-blue-50 text-blue-700 border-blue-200',
+      bg: 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
       icon: ArrowRightCircle
     },
     'Assigned': {
-      bg: 'bg-purple-50 text-purple-700 border-purple-200',
+      bg: 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800',
       icon: ArrowRightCircle
     },
     'In Progress': {
-      bg: 'bg-amber-50 text-amber-700 border-amber-200',
+      bg: 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800',
       icon: Clock
     },
     'Resolved': {
-      bg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      bg: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
       icon: CheckCircle2
     },
     'Rejected': {
-      bg: 'bg-rose-50 text-rose-700 border-rose-200',
+      bg: 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800',
       icon: XCircle
     }
   };

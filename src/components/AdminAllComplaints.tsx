@@ -135,10 +135,10 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
             All Civic Complaints Registry
           </h1>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Search, filter by ML prediction, update statuses, and dispatch municipal work orders ({total} total records).
           </p>
         </div>
@@ -146,14 +146,14 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={exportCSV}
-            className="inline-flex items-center gap-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-xl transition-colors shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold px-3 py-2 rounded-xl transition-colors shadow-2xs cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Export CSV</span>
           </button>
           <button
             onClick={loadData}
-            className="p-2 text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-colors"
+            className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl transition-colors cursor-pointer"
             title="Refresh Table"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
@@ -162,7 +162,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+      <div className="bg-white dark:bg-slate-900/90 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 transition-colors">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Search Box */}
           <form onSubmit={handleSearchSubmit} className="lg:col-span-2 relative">
@@ -173,7 +173,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
               placeholder="Search by ID, title, keyword, or area..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 bg-slate-50 border border-slate-300 rounded-xl py-2 px-3 text-xs text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl py-2 px-3 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             />
           </form>
 
@@ -186,7 +186,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                 setCategoryFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl py-2 px-3 text-xs text-slate-800 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl py-2 px-3 text-xs text-slate-800 dark:text-slate-200 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             >
               <option value="ALL">All Categories (10)</option>
               {categories.map(cat => (
@@ -204,7 +204,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                 setPriorityFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl py-2 px-3 text-xs text-slate-800 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl py-2 px-3 text-xs text-slate-800 dark:text-slate-200 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             >
               <option value="ALL">All Priorities</option>
               <option value="HIGH">High Priority</option>
@@ -222,7 +222,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                 setStatusFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl py-2 px-3 text-xs text-slate-800 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl py-2 px-3 text-xs text-slate-800 dark:text-slate-200 font-medium focus:outline-hidden focus:ring-2 focus:ring-blue-500"
             >
               <option value="ALL">All Statuses</option>
               {statuses.map(st => (
@@ -233,15 +233,15 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
         </div>
 
         {/* Sort Controls */}
-        <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span>Sort by:</span>
             <button
               onClick={() => {
                 setSortBy('createdAt');
                 setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
               }}
-              className={`px-2 py-0.5 rounded font-medium ${sortBy === 'createdAt' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'}`}
+              className={`px-2 py-0.5 rounded font-medium cursor-pointer ${sortBy === 'createdAt' ? 'bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}
             >
               Date {sortBy === 'createdAt' && (sortOrder === 'desc' ? '↓' : '↑')}
             </button>
@@ -250,7 +250,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                 setSortBy('priority');
                 setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
               }}
-              className={`px-2 py-0.5 rounded font-medium ${sortBy === 'priority' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'}`}
+              className={`px-2 py-0.5 rounded font-medium cursor-pointer ${sortBy === 'priority' ? 'bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}
             >
               Priority {sortBy === 'priority' && (sortOrder === 'desc' ? '↓' : '↑')}
             </button>
@@ -259,7 +259,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                 setSortBy('confidence');
                 setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
               }}
-              className={`px-2 py-0.5 rounded font-medium ${sortBy === 'confidence' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'}`}
+              className={`px-2 py-0.5 rounded font-medium cursor-pointer ${sortBy === 'confidence' ? 'bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}
             >
               ML Confidence {sortBy === 'confidence' && (sortOrder === 'desc' ? '↓' : '↑')}
             </button>
@@ -268,7 +268,7 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                 setSortBy('daysPending');
                 setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
               }}
-              className={`px-2 py-0.5 rounded font-medium ${sortBy === 'daysPending' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-700'}`}
+              className={`px-2 py-0.5 rounded font-medium cursor-pointer ${sortBy === 'daysPending' ? 'bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}
             >
               Days Pending {sortBy === 'daysPending' && (sortOrder === 'desc' ? '↓' : '↑')}
             </button>
@@ -281,22 +281,22 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
       </div>
 
       {/* Main Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden transition-colors">
         {isLoading ? (
           <div className="py-20 text-center space-y-2">
             <div className="w-7 h-7 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-xs text-slate-500">Querying database records...</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">Querying database records...</p>
           </div>
         ) : complaints.length === 0 ? (
-          <div className="py-16 text-center text-slate-500 space-y-2">
+          <div className="py-16 text-center text-slate-500 dark:text-slate-400 space-y-2">
             <AlertCircle className="w-8 h-8 text-slate-400 mx-auto" />
-            <p className="text-sm font-semibold text-slate-700">No complaints matched current filters.</p>
-            <p className="text-xs text-slate-400">Try adjusting search term or clearing priority filters.</p>
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No complaints matched current filters.</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500">Try adjusting search term or clearing priority filters.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50/80 text-slate-600 font-bold uppercase tracking-wider border-b border-slate-200">
+              <thead className="bg-slate-50/80 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 font-bold uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                 <tr>
                   <th className="py-3.5 px-4">Complaint ID</th>
                   <th className="py-3.5 px-4">Title & Details</th>
@@ -307,31 +307,31 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-150">
+              <tbody className="divide-y divide-slate-150 dark:divide-slate-800">
                 {complaints.map((c) => (
                   <tr
                     key={c.id}
                     onClick={() => onSelectComplaint(c)}
-                    className="hover:bg-slate-50/80 transition-colors cursor-pointer group"
+                    className="hover:bg-slate-50/80 dark:hover:bg-slate-800/60 transition-colors cursor-pointer group"
                   >
-                    <td className="py-3.5 px-4 font-mono font-bold text-blue-700 whitespace-nowrap">
+                    <td className="py-3.5 px-4 font-mono font-bold text-blue-700 dark:text-blue-400 whitespace-nowrap">
                       {c.id}
                     </td>
 
                     <td className="py-3.5 px-4 max-w-xs sm:max-w-sm">
-                      <div className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                      <div className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
                         {c.title}
                       </div>
-                      <div className="text-slate-500 text-[11px] line-clamp-1 mt-0.5">
+                      <div className="text-slate-500 dark:text-slate-400 text-[11px] line-clamp-1 mt-0.5">
                         {c.description}
                       </div>
-                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 font-mono mt-0.5">
                         {new Date(c.createdAt).toLocaleDateString()} • {c.daysPending}d pending • {c.previousComplaints} prior
                       </div>
                     </td>
 
                     <td className="py-3.5 px-4 whitespace-nowrap">
-                      <span className="font-semibold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                      <span className="font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
                         {c.category}
                       </span>
                     </td>
@@ -340,9 +340,9 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                       <PriorityBadge priority={c.priority} confidence={c.confidence} size="sm" />
                     </td>
 
-                    <td className="py-3.5 px-4 whitespace-nowrap text-slate-700">
+                    <td className="py-3.5 px-4 whitespace-nowrap text-slate-700 dark:text-slate-300">
                       <div className="font-medium">{c.location.area}</div>
-                      <div className="text-[10px] text-slate-400">{c.location.city}</div>
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500">{c.location.city}</div>
                     </td>
 
                     <td
@@ -355,12 +355,12 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                         onChange={(e) => handleInlineStatusChange(c.id, e.target.value as ComplaintStatus)}
                         className={`text-xs font-semibold rounded-lg px-2.5 py-1 border transition-colors ${
                           c.status === 'Resolved'
-                            ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
                             : c.status === 'In Progress'
-                            ? 'bg-amber-50 text-amber-800 border-amber-300'
+                            ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800'
                             : c.status === 'Assigned'
-                            ? 'bg-purple-50 text-purple-800 border-purple-300'
-                            : 'bg-slate-100 text-slate-800 border-slate-300'
+                            ? 'bg-purple-50 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300 border-purple-300 dark:border-purple-800'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700'
                         }`}
                       >
                         {statuses.map(st => (
@@ -376,14 +376,14 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
                       <div className="flex items-center justify-end gap-1.5">
                         <button
                           onClick={() => onSelectComplaint(c)}
-                          className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
                           title="Inspect Details"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
                         <button
                           onClick={(e) => handleDelete(c.id, e)}
-                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
                           title="Delete Complaint"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -398,23 +398,23 @@ export const AdminAllComplaints: React.FC<AdminAllComplaintsProps> = ({
         )}
 
         {/* Pagination Footer */}
-        <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
+        <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
           <div>
-            Page <strong className="text-slate-900">{page}</strong> of <strong className="text-slate-900">{totalPages}</strong>
+            Page <strong className="text-slate-900 dark:text-white">{page}</strong> of <strong className="text-slate-900 dark:text-white">{totalPages}</strong>
           </div>
 
           <div className="flex items-center gap-1.5">
             <button
               disabled={page <= 1}
               onClick={() => setPage(page - 1)}
-              className="p-1.5 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg disabled:opacity-40 transition-colors"
+              className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg disabled:opacity-40 transition-colors cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               disabled={page >= totalPages}
               onClick={() => setPage(page + 1)}
-              className="p-1.5 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg disabled:opacity-40 transition-colors"
+              className="p-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg disabled:opacity-40 transition-colors cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

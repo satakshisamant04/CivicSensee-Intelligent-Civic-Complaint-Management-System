@@ -150,6 +150,7 @@ export async function registerApi(payload: {
   email: string;
   password?: string;
   role: string;
+  phone?: string;
 }): Promise<{ user: UserSession; token: string }> {
   const res = await fetch('/api/auth/register', {
     method: 'POST',

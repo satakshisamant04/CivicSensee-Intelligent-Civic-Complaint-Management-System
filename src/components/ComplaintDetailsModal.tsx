@@ -61,36 +61,36 @@ export const ComplaintDetailsModal: React.FC<ComplaintDetailsModalProps> = ({
   return (
     <div
       id="complaint-details-modal-overlay"
-      className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-slate-900/60 dark:bg-slate-950/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
       <div
         id="complaint-details-modal-card"
-        className="bg-white rounded-2xl border border-slate-200 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 transition-colors"
       >
         {/* Header */}
-        <div className="p-4 sm:p-6 border-b border-slate-100 flex items-start justify-between gap-4 bg-slate-50/50">
+        <div className="p-4 sm:p-6 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between gap-4 bg-slate-50/50 dark:bg-slate-800/50">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-1.5">
-              <span className="font-mono text-xs font-bold text-slate-800 bg-slate-200/80 px-2.5 py-0.5 rounded">
+              <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200 bg-slate-200/80 dark:bg-slate-800 px-2.5 py-0.5 rounded border border-slate-300 dark:border-slate-700">
                 {complaint.id}
               </span>
               <PriorityBadge priority={complaint.priority} confidence={complaint.confidence} />
               <StatusBadge status={complaint.status} />
-              <span className="text-xs text-slate-500 font-medium">
-                Category: <strong className="text-slate-800">{complaint.category}</strong>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                Category: <strong className="text-slate-800 dark:text-slate-200">{complaint.category}</strong>
               </span>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-snug">
               {complaint.title}
             </h2>
           </div>
           <button
             id="close-modal-btn"
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -100,30 +100,30 @@ export const ComplaintDetailsModal: React.FC<ComplaintDetailsModalProps> = ({
         <div className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1">
           {/* Description */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
               Citizen Description
             </h3>
-            <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-800 leading-relaxed font-sans">
+            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-sans">
               "{complaint.description}"
             </div>
           </div>
 
           {/* Quick Info Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-150 text-xs text-slate-700">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-150 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
               <MapPin className="w-4 h-4 text-rose-500 shrink-0" />
               <div>
-                <div className="font-semibold text-slate-900">{complaint.location.area}, {complaint.location.city}</div>
+                <div className="font-semibold text-slate-900 dark:text-white">{complaint.location.area}, {complaint.location.city}</div>
                 {complaint.location.landmark && (
-                  <div className="text-slate-500 text-[11px]">Landmark: {complaint.location.landmark}</div>
+                  <div className="text-slate-500 dark:text-slate-400 text-[11px]">Landmark: {complaint.location.landmark}</div>
                 )}
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-150 text-xs text-slate-700">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-150 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
               <Calendar className="w-4 h-4 text-blue-500 shrink-0" />
               <div>
-                <div className="font-semibold text-slate-900">
+                <div className="font-semibold text-slate-900 dark:text-white">
                   {new Date(complaint.createdAt).toLocaleDateString(undefined, {
                     month: 'short',
                     day: 'numeric',
@@ -132,25 +132,25 @@ export const ComplaintDetailsModal: React.FC<ComplaintDetailsModalProps> = ({
                     minute: '2-digit'
                   })}
                 </div>
-                <div className="text-slate-500 text-[11px]">
+                <div className="text-slate-500 dark:text-slate-400 text-[11px]">
                   Existed {complaint.daysPending} days • {complaint.previousComplaints} prior reports
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-150 text-xs text-slate-700">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-150 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
               <User className="w-4 h-4 text-indigo-500 shrink-0" />
               <div>
-                <div className="font-semibold text-slate-900">{complaint.citizenName}</div>
-                <div className="text-slate-500 text-[11px]">{complaint.citizenEmail}</div>
+                <div className="font-semibold text-slate-900 dark:text-white">{complaint.citizenName}</div>
+                <div className="text-slate-500 dark:text-slate-400 text-[11px]">{complaint.citizenEmail}</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-150 text-xs text-slate-700">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-150 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300">
               <Building className="w-4 h-4 text-emerald-500 shrink-0" />
               <div>
-                <div className="font-semibold text-slate-900">{complaint.assignedDepartment || 'General Municipal Works'}</div>
-                <div className="text-slate-500 text-[11px]">Assigned: {complaint.assignedOfficer || 'Pending Field Dispatch'}</div>
+                <div className="font-semibold text-slate-900 dark:text-white">{complaint.assignedDepartment || 'General Municipal Works'}</div>
+                <div className="text-slate-500 dark:text-slate-400 text-[11px]">Assigned: {complaint.assignedOfficer || 'Pending Field Dispatch'}</div>
               </div>
             </div>
           </div>
@@ -166,7 +166,7 @@ export const ComplaintDetailsModal: React.FC<ComplaintDetailsModalProps> = ({
 
           {/* Admin Status Management Panel */}
           {isAdmin && onUpdateStatus && (
-            <div className="bg-slate-900 text-white rounded-xl p-4 sm:p-5 space-y-4">
+            <div className="bg-slate-900 text-white rounded-xl p-4 sm:p-5 space-y-4 border border-slate-800">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Shield className="w-4 h-4 text-amber-400" />
@@ -222,7 +222,7 @@ export const ComplaintDetailsModal: React.FC<ComplaintDetailsModalProps> = ({
                     type="submit"
                     id="save-status-btn"
                     disabled={isUpdating}
-                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>{isUpdating ? 'Saving...' : 'Apply Status Update'}</span>
@@ -234,24 +234,24 @@ export const ComplaintDetailsModal: React.FC<ComplaintDetailsModalProps> = ({
 
           {/* Timeline */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5" />
               <span>Complaint Progress Timeline ({complaint.timeline.length} events)</span>
             </h3>
 
-            <div className="space-y-3 relative pl-4 border-l-2 border-slate-200 ml-2">
+            <div className="space-y-3 relative pl-4 border-l-2 border-slate-200 dark:border-slate-700 ml-2">
               {complaint.timeline.map((event, idx) => (
                 <div key={idx} className="relative group">
-                  <div className="absolute -left-[23px] top-1 w-3.5 h-3.5 rounded-full bg-white border-2 border-blue-600" />
-                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs space-y-1">
-                    <div className="flex items-center justify-between font-semibold text-slate-800">
-                      <span className="text-blue-700">{event.status}</span>
-                      <span className="text-[10px] text-slate-400 font-mono">
+                  <div className="absolute -left-[23px] top-1 w-3.5 h-3.5 rounded-full bg-white dark:bg-slate-900 border-2 border-blue-600" />
+                  <div className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg p-3 text-xs space-y-1">
+                    <div className="flex items-center justify-between font-semibold text-slate-800 dark:text-slate-200">
+                      <span className="text-blue-700 dark:text-blue-400">{event.status}</span>
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">
                         {new Date(event.timestamp).toLocaleString()}
                       </span>
                     </div>
-                    <p className="text-slate-600">{event.note}</p>
-                    <div className="text-[10px] text-slate-400">By: {event.updatedBy}</div>
+                    <p className="text-slate-600 dark:text-slate-300">{event.note}</p>
+                    <div className="text-[10px] text-slate-400 dark:text-slate-500">By: {event.updatedBy}</div>
                   </div>
                 </div>
               ))}
@@ -260,13 +260,13 @@ export const ComplaintDetailsModal: React.FC<ComplaintDetailsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
-          <span className="text-xs text-slate-500">
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/80 flex items-center justify-between">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
             Citizen ID: {complaint.citizenEmail}
           </span>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors"
+            className="px-4 py-2 bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-lg transition-colors cursor-pointer"
           >
             Close
           </button>

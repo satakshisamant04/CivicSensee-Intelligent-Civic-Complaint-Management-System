@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ComplaintCategory, PriorityLevel, MLPredictionResult } from '../types/index.js';
+import { ComplaintCategory, PriorityLevel, MLPredictionResult, UserRole } from '../types/index.js';
 import { createComplaintApi, predictComplaintMLApi } from '../services/api.js';
 import { PriorityBadge } from './StatusBadge.js';
 import {
@@ -15,13 +15,17 @@ import {
   HelpCircle,
   Zap,
   ArrowRight,
-  RotateCcw
+  RotateCcw,
+  ShieldCheck,
+  UserPlus,
+  LogIn
 } from 'lucide-react';
 
 interface SubmitComplaintFormProps {
   onSuccess: (complaintId: string) => void;
-  defaultCitizenEmail?: string;
-  defaultCitizenName?: string;
+  currentUser?: { name: string; email: string; role: string; token: string; phone?: string } | null;
+  onOpenAuth?: (isRegister: boolean, role: UserRole, reason?: string) => void;
+  onAutoRegisterDemoCitizen?: () => void;
 }
 
 const TEMPLATES = [
@@ -69,8 +73,9 @@ const TEMPLATES = [
 
 export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
   onSuccess,
-  defaultCitizenEmail = 'aarav.sharma@example.com',
-  defaultCitizenName = 'Aarav Sharma'
+  currentUser,
+  onOpenAuth,
+  onAutoRegisterDemoCitizen
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -79,10 +84,21 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
   const [landmark, setLandmark] = useState('');
   const [daysPending, setDaysPending] = useState(1);
   const [previousComplaints, setPreviousComplaints] = useState(0);
-  const [citizenName, setCitizenName] = useState(defaultCitizenName);
-  const [citizenEmail, setCitizenEmail] = useState(defaultCitizenEmail);
-  const [citizenPhone, setCitizenPhone] = useState('+1 (555) 234-5678');
+  const [citizenName, setCitizenName] = useState(currentUser?.name || '');
+  const [citizenEmail, setCitizenEmail] = useState(currentUser?.email || '');
+  const [citizenPhone, setCitizenPhone] = useState(currentUser?.phone || '+1 (555) 234-5678');
   const [customCategory, setCustomCategory] = useState<string>('AUTO');
+
+  // Update name/email when currentUser changes
+  useEffect(() => {
+    if (currentUser) {
+      setCitizenName(currentUser.name);
+      setCitizenEmail(currentUser.email);
+      if (currentUser.phone) {
+        setCitizenPhone(currentUser.phone);
+      }
+    }
+  }, [currentUser]);
 
   // Live ML Prediction Preview state
   const [mlPreview, setMlPreview] = useState<MLPredictionResult | null>(null);
@@ -126,6 +142,14 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
     e.preventDefault();
     setErrorMsg('');
 
+    if (!currentUser) {
+      setErrorMsg('Mandatory Citizen Registration is required before submitting complaints.');
+      if (onOpenAuth) {
+        onOpenAuth(true, 'citizen', 'Citizen registration is mandatory to submit complaints.');
+      }
+      return;
+    }
+
     if (!title.trim()) {
       setErrorMsg('Please enter a descriptive complaint title.');
       return;
@@ -151,8 +175,8 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
         },
         daysPending: Number(daysPending) || 0,
         previousComplaints: Number(previousComplaints) || 0,
-        citizenName: citizenName.trim(),
-        citizenEmail: citizenEmail.trim(),
+        citizenName: (citizenName || currentUser.name).trim(),
+        citizenEmail: (citizenEmail || currentUser.email).trim(),
         citizenPhone: citizenPhone.trim() || undefined,
         customCategory: customCategory !== 'AUTO' ? (customCategory as ComplaintCategory) : undefined
       });
@@ -184,35 +208,117 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
     'Sewage', 'Other'
   ];
 
+  // MANDATORY REGISTRATION GATE: If citizen is not registered/logged in, show mandatory requirement view
+  if (!currentUser) {
+    return (
+      <div id="mandatory-citizen-registration-gate" className="max-w-2xl mx-auto space-y-6 py-4">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-blue-200 dark:border-blue-900/60 shadow-xl p-6 sm:p-8 space-y-6 text-center transition-colors">
+          {/* Header Icon */}
+          <div className="w-16 h-16 bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+            <UserPlus className="w-8 h-8" />
+          </div>
+
+          <div className="space-y-2">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/80 px-3 py-1 rounded-full border border-blue-200 dark:border-blue-800">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Municipal Governance Protocol
+            </span>
+            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">
+              Citizen Registration Mandatory to Lodge Complaint
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+              To prevent anonymous false reports, maintain location accountability, and deliver direct SMS/email resolution updates from municipal field crews, all citizens must register before lodging a complaint.
+            </p>
+          </div>
+
+          {/* Benefits Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left text-xs">
+            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/80 space-y-1">
+              <div className="font-bold text-slate-800 dark:text-slate-200">Live SMS & Email</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400">Receive instant notifications when municipal officers review & resolve your issue.</div>
+            </div>
+            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/80 space-y-1">
+              <div className="font-bold text-slate-800 dark:text-slate-200">Verified Citizen ID</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400">Your reports are verified and routed to specialized ward engineers with high priority.</div>
+            </div>
+            <div className="p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700/80 space-y-1">
+              <div className="font-bold text-slate-800 dark:text-slate-200">Complaint History</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400">Access all your submitted grievances in one personalized Citizen Dashboard.</div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="space-y-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                id="register-mandatory-citizen-btn"
+                type="button"
+                onClick={() => onOpenAuth && onOpenAuth(true, 'citizen', 'Register your citizen profile to lodge civic complaints.')}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl transition-all shadow-md hover:shadow-lg cursor-pointer"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>Register Citizen Profile</span>
+              </button>
+
+              <button
+                id="signin-citizen-btn"
+                type="button"
+                onClick={() => onOpenAuth && onOpenAuth(false, 'citizen', 'Sign in to your citizen account to lodge a complaint.')}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm px-6 py-3 rounded-xl transition-colors cursor-pointer"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Sign In to Existing Account</span>
+              </button>
+            </div>
+
+            {/* Quick 1-Click Demo Registration for tester convenience */}
+            {onAutoRegisterDemoCitizen && (
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={onAutoRegisterDemoCitizen}
+                  className="inline-flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <span>Quick Test: Register Instantly as Aarav Sharma (Citizen Demo)</span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (submittedResult) {
     return (
-      <div id="submission-success-card" className="max-w-2xl mx-auto bg-white rounded-2xl border border-emerald-200 shadow-xl p-6 sm:p-8 text-center space-y-6">
-        <div className="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto ring-8 ring-emerald-50 animate-bounce">
+      <div id="submission-success-card" className="max-w-2xl mx-auto bg-white dark:bg-slate-900 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-xl p-6 sm:p-8 text-center space-y-6 transition-colors">
+        <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 rounded-full flex items-center justify-center mx-auto ring-8 ring-emerald-50 dark:ring-emerald-900/30 animate-bounce">
           <CheckCircle className="w-8 h-8" />
         </div>
 
         <div className="space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
             Registered with Municipal Ingestion Engine
           </span>
-          <h2 className="text-2xl font-bold text-slate-900">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
             Complaint Submitted Successfully!
           </h2>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-600 dark:text-slate-300">
             Your issue has been automatically categorized and queued for municipal action based on its ML predicted priority.
           </p>
         </div>
 
         {/* Highlight Summary Box */}
-        <div className="bg-slate-50 rounded-xl p-5 border border-slate-200 text-left space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+        <div className="bg-slate-50 dark:bg-slate-800/80 rounded-xl p-5 border border-slate-200 dark:border-slate-700 text-left space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-700 pb-3">
             <div>
-              <div className="text-[11px] uppercase font-bold text-slate-500">Complaint ID</div>
-              <div className="text-lg font-mono font-bold text-blue-700">{submittedResult.id}</div>
+              <div className="text-[11px] uppercase font-bold text-slate-500 dark:text-slate-400">Complaint ID</div>
+              <div className="text-lg font-mono font-bold text-blue-700 dark:text-blue-400">{submittedResult.id}</div>
             </div>
             <div className="flex items-center gap-2">
               <PriorityBadge priority={submittedResult.priority} confidence={submittedResult.confidence} size="md" />
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-200 text-slate-700">
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
                 {submittedResult.status}
               </span>
             </div>
@@ -220,27 +326,27 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <span className="text-slate-500 font-medium">Assigned Category:</span>
-              <div className="font-bold text-slate-900">{submittedResult.category}</div>
+              <span className="text-slate-500 dark:text-slate-400 font-medium">Assigned Category:</span>
+              <div className="font-bold text-slate-900 dark:text-white">{submittedResult.category}</div>
             </div>
             <div>
-              <span className="text-slate-500 font-medium">Location Area:</span>
-              <div className="font-bold text-slate-900">{submittedResult.location.area}, {submittedResult.location.city}</div>
+              <span className="text-slate-500 dark:text-slate-400 font-medium">Location Area:</span>
+              <div className="font-bold text-slate-900 dark:text-white">{submittedResult.location.area}, {submittedResult.location.city}</div>
             </div>
             <div>
-              <span className="text-slate-500 font-medium">ML Confidence Score:</span>
-              <div className="font-bold text-indigo-700 font-mono">{Math.round(submittedResult.confidence * 100)}%</div>
+              <span className="text-slate-500 dark:text-slate-400 font-medium">ML Confidence Score:</span>
+              <div className="font-bold text-indigo-700 dark:text-indigo-400 font-mono">{Math.round(submittedResult.confidence * 100)}%</div>
             </div>
             <div>
-              <span className="text-slate-500 font-medium">Assigned Department:</span>
-              <div className="font-bold text-slate-900">{submittedResult.assignedDepartment}</div>
+              <span className="text-slate-500 dark:text-slate-400 font-medium">Assigned Department:</span>
+              <div className="font-bold text-slate-900 dark:text-white">{submittedResult.assignedDepartment}</div>
             </div>
           </div>
 
           {submittedResult.explainability?.primaryDrivers && (
-            <div className="pt-2 border-t border-slate-200">
-              <div className="text-[11px] font-bold text-slate-700 uppercase mb-1">Key Urgency Drivers</div>
-              <ul className="text-xs text-slate-600 list-disc list-inside space-y-0.5">
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
+              <div className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Key Urgency Drivers</div>
+              <ul className="text-xs text-slate-600 dark:text-slate-300 list-disc list-inside space-y-0.5">
                 {submittedResult.explainability.primaryDrivers.map((d: string, idx: number) => (
                   <li key={idx}>{d}</li>
                 ))}
@@ -253,7 +359,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
           <button
             id="track-new-complaint-btn"
             onClick={() => onSuccess(submittedResult.id)}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition-all shadow-sm"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition-all shadow-sm cursor-pointer"
           >
             <span>Track This Complaint</span>
             <ArrowRight className="w-4 h-4" />
@@ -261,7 +367,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
           <button
             id="submit-another-btn"
             onClick={handleReset}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold text-sm px-6 py-2.5 rounded-xl transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm px-6 py-2.5 rounded-xl transition-colors cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Submit Another Complaint</span>
@@ -273,20 +379,42 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
 
   return (
     <div id="submit-complaint-section" className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold text-slate-900">
-          Submit Civic Complaint
-        </h1>
-        <p className="text-sm text-slate-600">
-          Describe any municipal infrastructure or public service issue. Our explainable NLP engine will automatically categorize it and evaluate priority urgency.
-        </p>
+      {/* Header & Authenticated Citizen Info Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+            Submit Civic Complaint
+          </h1>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Describe any municipal infrastructure or public service issue. Our explainable NLP engine will automatically categorize it and evaluate priority urgency.
+          </p>
+        </div>
+
+        {/* Authenticated Citizen Badge */}
+        {currentUser && (
+          <div className="shrink-0 flex items-center gap-2.5 bg-blue-50 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-800 py-1.5 px-3 rounded-2xl">
+            <div className="w-8 h-8 bg-blue-600 text-white rounded-xl flex items-center justify-center text-xs font-bold shadow-xs">
+              {currentUser.name.charAt(0).toUpperCase()}
+            </div>
+            <div className="text-left text-xs leading-tight">
+              <div className="font-bold text-blue-900 dark:text-blue-200 flex items-center gap-1">
+                <span>{currentUser.name}</span>
+                <span className="text-[10px] font-extrabold uppercase bg-blue-200 dark:bg-blue-900 text-blue-800 dark:text-blue-300 px-1.5 py-0.2 rounded">
+                  {currentUser.role}
+                </span>
+              </div>
+              <div className="text-[11px] text-blue-600 dark:text-blue-400 font-mono truncate max-w-[160px]">
+                {currentUser.email}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Quick Templates Banner */}
-      <div className="bg-slate-100/70 border border-slate-200 rounded-xl p-3.5 space-y-2">
-        <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
-          <Zap className="w-3.5 h-3.5 text-amber-600" />
+      <div className="bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 space-y-2 transition-colors">
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
+          <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
           <span>Quick Preset Examples (Click to Auto-fill):</span>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -295,7 +423,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
               key={idx}
               type="button"
               onClick={() => applyTemplate(tpl)}
-              className="text-xs bg-white hover:bg-slate-50 border border-slate-200 hover:border-blue-400 text-slate-700 font-medium px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
+              className="text-xs bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 hover:border-blue-400 text-slate-700 dark:text-slate-200 font-medium px-2.5 py-1 rounded-lg transition-colors cursor-pointer shadow-2xs"
             >
               {tpl.label}
             </button>
@@ -304,18 +432,18 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
       </div>
 
       {errorMsg && (
-        <div className="bg-rose-50 border border-rose-200 text-rose-700 text-xs p-3.5 rounded-xl flex items-center gap-2">
-          <HelpCircle className="w-4 h-4 text-rose-600 shrink-0" />
+        <div className="bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs p-3.5 rounded-xl flex items-center gap-2">
+          <HelpCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left 2 Cols: Main Form */}
-        <div className="lg:col-span-2 space-y-5 bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs">
+        <div className="lg:col-span-2 space-y-5 bg-white dark:bg-slate-900/90 p-5 sm:p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs transition-colors">
           {/* Title */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
               Complaint Title <span className="text-red-500">*</span>
             </label>
             <input
@@ -325,17 +453,17 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
               placeholder="e.g. Broken streetlight on Sector 4 main avenue"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
             />
           </div>
 
           {/* Description */}
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                 Detailed Description <span className="text-red-500">*</span>
               </label>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-400 dark:text-slate-500">
                 {description.length} characters
               </span>
             </div>
@@ -346,9 +474,9 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
               placeholder="Describe the issue, location hazards, time elapsed, and exact symptoms..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+              className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl p-3.5 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-800 transition-all"
             />
-            <p className="text-[11px] text-slate-500 mt-1">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
               💡 Tip: Provide specific details (e.g., exposed wires, days broken, accidents caused) to assist ML priority recommendation.
             </p>
           </div>
@@ -356,14 +484,14 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
           {/* Category Override / Auto Detect */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                 Category
               </label>
               <select
                 id="complaint-category-select"
                 value={customCategory}
                 onChange={(e) => setCustomCategory(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500 font-medium"
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500 font-medium"
               >
                 <option value="AUTO">✨ Auto-Detect with NLP (Recommended)</option>
                 {categories.map((cat) => (
@@ -373,7 +501,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                 City
               </label>
               <input
@@ -381,7 +509,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
                 id="complaint-city-input"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
@@ -389,7 +517,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
           {/* Location Area & Landmark */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                 Area / Ward / Sector <span className="text-red-500">*</span>
               </label>
               <div className="relative">
@@ -401,13 +529,13 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
                   placeholder="e.g. Sector 4, West Wing"
                   value={area}
                   onChange={(e) => setArea(e.target.value)}
-                  className="w-full pl-10 bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                 Landmark / Specific Spot (Optional)
               </label>
               <input
@@ -416,22 +544,22 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
                 placeholder="e.g. Near Greenwood Primary School"
                 value={landmark}
                 onChange={(e) => setLandmark(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
           {/* Metadata Features (Days Pending & Previous Complaints) */}
-          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="p-4 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>Issue History & Recurrence (ML Feature Inputs)</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs text-slate-600 font-medium mb-1">
-                  Days issue has existed: <strong className="text-slate-900">{daysPending} day(s)</strong>
+                <label className="block text-xs text-slate-600 dark:text-slate-300 font-medium mb-1">
+                  Days issue has existed: <strong className="text-slate-900 dark:text-white">{daysPending} day(s)</strong>
                 </label>
                 <input
                   type="range"
@@ -442,7 +570,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
                   onChange={(e) => setDaysPending(Number(e.target.value))}
                   className="w-full accent-blue-600"
                 />
-                <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+                <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 font-mono">
                   <span>0 (Today)</span>
                   <span>7 (1 week)</span>
                   <span>30+ days</span>
@@ -450,8 +578,8 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs text-slate-600 font-medium mb-1">
-                  Previous complaints reported: <strong className="text-slate-900">{previousComplaints}</strong>
+                <label className="block text-xs text-slate-600 dark:text-slate-300 font-medium mb-1">
+                  Previous complaints reported: <strong className="text-slate-900 dark:text-white">{previousComplaints}</strong>
                 </label>
                 <input
                   type="range"
@@ -462,7 +590,7 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
                   onChange={(e) => setPreviousComplaints(Number(e.target.value))}
                   className="w-full accent-blue-600"
                 />
-                <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+                <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 font-mono">
                   <span>0 (First report)</span>
                   <span>5</span>
                   <span>10+</span>
@@ -474,42 +602,43 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
           {/* Citizen Contact Details */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">Your Name</label>
+              <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Registered Citizen</label>
               <div className="relative">
                 <User className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
                 <input
                   type="text"
                   required
+                  readOnly
                   value={citizenName}
-                  onChange={(e) => setCitizenName(e.target.value)}
-                  className="w-full pl-9 bg-slate-50 border border-slate-300 rounded-lg p-2 text-xs text-slate-900"
+                  className="w-full pl-9 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-slate-100 font-medium cursor-not-allowed"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">Email Address</label>
+              <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">Verified Email</label>
               <div className="relative">
                 <Mail className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
                 <input
                   type="email"
                   required
+                  readOnly
                   value={citizenEmail}
-                  onChange={(e) => setCitizenEmail(e.target.value)}
-                  className="w-full pl-9 bg-slate-50 border border-slate-300 rounded-lg p-2 text-xs text-slate-900"
+                  className="w-full pl-9 bg-slate-100 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-slate-100 font-mono cursor-not-allowed"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-600 mb-1">Phone (Optional)</label>
+              <label className="block text-xs font-medium text-slate-600 dark:text-slate-300 mb-1">SMS Alerts Phone</label>
               <div className="relative">
                 <Phone className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
                 <input
                   type="tel"
                   value={citizenPhone}
                   onChange={(e) => setCitizenPhone(e.target.value)}
-                  className="w-full pl-9 bg-slate-50 border border-slate-300 rounded-lg p-2 text-xs text-slate-900"
+                  placeholder="+1 (555) 000-0000"
+                  className="w-full pl-9 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -524,14 +653,14 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
               className="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm py-3 px-6 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 cursor-pointer"
             >
               <Send className="w-4 h-4" />
-              <span>{isSubmitting ? 'Processing ML Ingestion...' : 'Submit Complaint'}</span>
+              <span>{isSubmitting ? 'Processing ML Ingestion...' : 'Submit Complaint to Municipality'}</span>
             </button>
           </div>
         </div>
 
         {/* Right 1 Col: Live AI Prediction Preview */}
         <div className="space-y-4">
-          <div className="bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 shadow-md space-y-4">
+          <div className="bg-slate-900 dark:bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 dark:border-slate-800 shadow-md space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
@@ -617,11 +746,11 @@ export const SubmitComplaintForm: React.FC<SubmitComplaintFormProps> = ({
             )}
           </div>
 
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 text-xs text-blue-800 space-y-1.5">
+          <div className="bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 rounded-xl p-4 text-xs text-blue-800 dark:text-blue-300 space-y-1.5 transition-colors">
             <div className="font-bold flex items-center gap-1.5">
               <span>🏛️ Municipal Priority Guarantee</span>
             </div>
-            <p className="text-blue-700 leading-relaxed">
+            <p className="text-blue-700 dark:text-blue-400 leading-relaxed">
               High priority civic hazards (e.g. exposed live wires, pipe bursts, deep potholes) trigger automated alerts to municipal quick-response field units.
             </p>
           </div>

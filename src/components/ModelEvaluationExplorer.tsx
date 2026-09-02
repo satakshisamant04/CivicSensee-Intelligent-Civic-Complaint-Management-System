@@ -99,23 +99,23 @@ export const ModelEvaluationExplorer: React.FC = () => {
       {/* Header */}
       <div className="space-y-1">
         <div className="flex items-center gap-2">
-          <span className="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-indigo-200">
+          <span className="bg-indigo-100 dark:bg-indigo-950/80 text-indigo-800 dark:text-indigo-300 text-xs font-bold px-2.5 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-900">
             ML ARCHITECTURE & METRICS
           </span>
-          <span className="text-xs text-slate-400 font-mono">
+          <span className="text-xs text-slate-400 dark:text-slate-500 font-mono">
             Pipeline: TF-IDF + Logistic Regression
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
           Machine Learning Model Intelligence & Evaluation
         </h1>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-slate-600 dark:text-slate-400">
           Transparent metrics, classification reports, confusion matrices, and explainability benchmarks trained on labeled civic complaint datasets.
         </p>
       </div>
 
       {/* Interactive ML Sandbox Playground */}
-      <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
+      <div className="bg-slate-900 dark:bg-slate-900/90 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-blue-600 text-white rounded-xl">
@@ -274,42 +274,42 @@ export const ModelEvaluationExplorer: React.FC = () => {
       {/* Model Performance Comparison Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Category Model Performance Card */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs space-y-4 transition-colors">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-2">
-              <div className="p-2 bg-blue-50 text-blue-700 rounded-xl">
+              <div className="p-2 bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 rounded-xl">
                 <BrainCircuit className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-slate-900">Category Classification Model</h3>
-                <p className="text-xs text-slate-500">10-class Civic Categorizer (TF-IDF + Logistic Regression)</p>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Category Classification Model</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">10-class Civic Categorizer (TF-IDF + Logistic Regression)</p>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-xl font-mono font-extrabold text-blue-600">
+              <div className="text-xl font-mono font-extrabold text-blue-600 dark:text-blue-400">
                 {(categoryMetrics.accuracy * 100).toFixed(1)}%
               </div>
-              <div className="text-[10px] text-slate-400 uppercase font-bold">Test Accuracy</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold">Test Accuracy</div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-xl border border-slate-150">
+          <div className="grid grid-cols-2 gap-3 text-xs bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-150 dark:border-slate-700">
             <div>
-              <span className="text-slate-500">Logistic Regression (Selected):</span>
-              <div className="font-bold text-slate-900 font-mono">{(categoryMetrics.modelComparison.logisticRegressionAcc * 100).toFixed(1)}% Acc</div>
+              <span className="text-slate-500 dark:text-slate-400">Logistic Regression (Selected):</span>
+              <div className="font-bold text-slate-900 dark:text-white font-mono">{(categoryMetrics.modelComparison.logisticRegressionAcc * 100).toFixed(1)}% Acc</div>
             </div>
             <div>
-              <span className="text-slate-500">Random Forest Baseline:</span>
-              <div className="font-bold text-slate-900 font-mono">{(categoryMetrics.modelComparison.randomForestAcc * 100).toFixed(1)}% Acc</div>
+              <span className="text-slate-500 dark:text-slate-400">Random Forest Baseline:</span>
+              <div className="font-bold text-slate-900 dark:text-white font-mono">{(categoryMetrics.modelComparison.randomForestAcc * 100).toFixed(1)}% Acc</div>
             </div>
           </div>
 
           {/* Classification Report Snippet */}
           <div className="space-y-2">
-            <div className="text-xs font-bold uppercase text-slate-700">Classification Report (Sample Categories)</div>
+            <div className="text-xs font-bold uppercase text-slate-700 dark:text-slate-300">Classification Report (Sample Categories)</div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-100 text-slate-600 font-semibold text-[11px]">
+                <thead className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-[11px]">
                   <tr>
                     <th className="py-1.5 px-2">Category</th>
                     <th className="py-1.5 px-2">Precision</th>
@@ -317,13 +317,13 @@ export const ModelEvaluationExplorer: React.FC = () => {
                     <th className="py-1.5 px-2">F1-Score</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 font-mono text-[11px]">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-mono text-[11px]">
                   {Object.entries(categoryMetrics.classificationReport).slice(0, 6).map(([cat, report]: [string, any]) => (
                     <tr key={cat}>
-                      <td className="py-1.5 px-2 font-sans font-medium text-slate-800">{cat}</td>
-                      <td className="py-1.5 px-2 text-slate-700">{Number(report?.precision ?? 0).toFixed(2)}</td>
-                      <td className="py-1.5 px-2 text-slate-700">{Number(report?.recall ?? 0).toFixed(2)}</td>
-                      <td className="py-1.5 px-2 font-bold text-blue-700">{Number(report?.['f1-score'] ?? 0).toFixed(2)}</td>
+                      <td className="py-1.5 px-2 font-sans font-medium text-slate-800 dark:text-slate-200">{cat}</td>
+                      <td className="py-1.5 px-2 text-slate-700 dark:text-slate-300">{Number(report?.precision ?? 0).toFixed(2)}</td>
+                      <td className="py-1.5 px-2 text-slate-700 dark:text-slate-300">{Number(report?.recall ?? 0).toFixed(2)}</td>
+                      <td className="py-1.5 px-2 font-bold text-blue-700 dark:text-blue-400">{Number(report?.['f1-score'] ?? 0).toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -333,43 +333,43 @@ export const ModelEvaluationExplorer: React.FC = () => {
         </div>
 
         {/* Priority Model Performance Card */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs space-y-4 transition-colors">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-2">
-              <div className="p-2 bg-red-50 text-red-700 rounded-xl">
+              <div className="p-2 bg-red-50 dark:bg-red-950/80 text-red-700 dark:text-red-300 rounded-xl">
                 <TrendingUp className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-slate-900">Priority Prediction Model</h3>
-                <p className="text-xs text-slate-500">Urgency Classification (HIGH / MEDIUM / LOW)</p>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Priority Prediction Model</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Urgency Classification (HIGH / MEDIUM / LOW)</p>
               </div>
             </div>
             <div className="text-right">
-              <div className="text-xl font-mono font-extrabold text-red-600">
+              <div className="text-xl font-mono font-extrabold text-red-600 dark:text-red-400">
                 {(priorityMetrics.accuracy * 100).toFixed(1)}%
               </div>
-              <div className="text-[10px] text-slate-400 uppercase font-bold">Accuracy • {priorityMetrics.macroF1.toFixed(2)} F1</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold">Accuracy • {priorityMetrics.macroF1.toFixed(2)} F1</div>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 text-center text-xs bg-slate-50 p-3 rounded-xl border border-slate-150 font-mono">
+          <div className="grid grid-cols-3 gap-2 text-center text-xs bg-slate-50 dark:bg-slate-800/80 p-3 rounded-xl border border-slate-150 dark:border-slate-700 font-mono">
             <div>
-              <div className="text-[10px] text-slate-400 font-sans">Macro Precision</div>
-              <div className="font-bold text-slate-900">{priorityMetrics.macroPrecision.toFixed(3)}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-sans">Macro Precision</div>
+              <div className="font-bold text-slate-900 dark:text-white">{priorityMetrics.macroPrecision.toFixed(3)}</div>
             </div>
             <div>
-              <div className="text-[10px] text-slate-400 font-sans">Macro Recall</div>
-              <div className="font-bold text-slate-900">{priorityMetrics.macroRecall.toFixed(3)}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-sans">Macro Recall</div>
+              <div className="font-bold text-slate-900 dark:text-white">{priorityMetrics.macroRecall.toFixed(3)}</div>
             </div>
             <div>
-              <div className="text-[10px] text-slate-400 font-sans">Macro F1-Score</div>
-              <div className="font-bold text-indigo-700">{priorityMetrics.macroF1.toFixed(3)}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-sans">Macro F1-Score</div>
+              <div className="font-bold text-indigo-700 dark:text-indigo-400">{priorityMetrics.macroF1.toFixed(3)}</div>
             </div>
           </div>
 
           {/* Priority Confusion Matrix */}
           <div className="space-y-2">
-            <div className="text-xs font-bold uppercase text-slate-700">
+            <div className="text-xs font-bold uppercase text-slate-700 dark:text-slate-300">
               Priority Confusion Matrix (Rows: True, Cols: Predicted)
             </div>
             <div className="bg-slate-900 text-white rounded-xl p-3 text-xs font-mono">
@@ -406,15 +406,15 @@ export const ModelEvaluationExplorer: React.FC = () => {
         </div>
       </div>
 
-      {/* Explainability & Interview ML Notes */}
-      <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-5 sm:p-6 space-y-3">
+      {/* Explainability & Notes */}
+      <div className="bg-blue-50/60 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 rounded-2xl p-5 sm:p-6 space-y-3 transition-colors">
         <div className="flex items-center gap-2">
-          <BookOpen className="w-5 h-5 text-blue-700" />
-          <h3 className="text-sm font-bold text-blue-900">
-            Key ML Interview Concept: Why F1-Score Matters for Civic Complaints
+          <BookOpen className="w-5 h-5 text-blue-700 dark:text-blue-400" />
+          <h3 className="text-sm font-bold text-blue-900 dark:text-blue-200">
+            Machine Learning Evaluation: Why F1-Score Matters for Civic Safety
           </h3>
         </div>
-        <p className="text-xs sm:text-sm text-blue-800 leading-relaxed">
+        <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-300 leading-relaxed">
           In real-world municipal systems, high-priority civic emergencies (e.g. hazardous live wires, pipe bursts, severe road cave-ins) are rarer than routine cosmetic complaints.
           Relying solely on overall <strong>Accuracy</strong> can be deceptive because a naive model could predict "LOW" on every case and still achieve 85%+ accuracy.
           We evaluate the harmonic mean of <strong>Precision</strong> (preventing false alarms) and <strong>Recall</strong> (never missing a dangerous hazard) via the <strong>Macro F1-Score (0.917)</strong> to guarantee reliable triage for municipal safety.
